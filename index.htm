@@ -1,130 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weatherly</title>
-    <link rel="stylesheet" href="css/style.css" />
-    <link
-      rel="shortcut icon"
-      href="assets/images/favicon.ico"
-      type="image/x-icon"
-    />
-  </head>
-  <body>
-    <header class="head">
-      <h3>Weatherly</h3>
-      <div class="main-title">
-        <h1>Welcome! How's the sky looking today?</h1>
-        <div class="search-box">
-          <input type="search" placeholder="search for a place... " />
-          <button>Search</button>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weatherly</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
+</head>
+
+<body>
+  <header>
+    <h1>Weatherly</h1>
+  </header>
+  <div class="intro">
+    <p class="intro--text">Hello, You want to see what the sky looks like?</p>
+    <div class="intro--search">
+      <input type="text" name="city" id="city" spellcheck="false" placeholder="Search for a place...">
+      <button id="search">Search</button>
+    </div>
+  </div>
+
+  <main class="details">
+    <div class="details--main">
+      <div>
+        <p class="main-city">Berlin, Germany</p>
+        <p class="main-date">Tuesday, Jan 13, 2026</p>
+      </div>
+      <div>
+        <img src="assets/images/icon-sunny.webp" alt="sunny">
+        <p class="temp">20°</p>
+      </div>
+    </div>
+
+    <div class="details--sub">
+      <div>
+        <p class="sub-text">Feels Like</p>
+        <p class="feels">18°</p>
+      </div>
+      <div>
+        <p class="sub-text">Humidity</p>
+        <p class="humidity">46%</p>
+      </div>
+      <div>
+        <p class="sub-text">Wind</p>
+        <p class="wind">14 km/hr</p>
+      </div>
+      <div>
+        <p class="sub-text">Percipitation</p>
+        <p class="feels">0 mm</p>
+      </div>
+    </div>
+
+    <div class="details--daily">
+      <p class="daily-text">Daily Forcast</p>
+      <div class="daily-box">
+        <div>
+          <p class="daily-day">Tue</p>
+          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
+          <div class="daily-info">
+            <p class="temp">10°</p>
+            <p class="wind">10 km/hr</p>
+          </div>
+        </div>
+        
+        <div>
+          <p class="daily-day">Wed</p>
+          <img src="assets/images/icon-fog.webp" alt="" class="icon">
+          <div class="daily-info">
+            <p class="temp">10°</p>
+            <p class="wind">10 km/hr</p>
+          </div>
+        </div>
+        
+        <div>
+          <p class="daily-day">Thur</p>
+          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
+          <div class="daily-info">
+            <p class="temp">10°</p>
+            <p class="wind">10 km/hr</p>
+          </div>
+        </div>
+        
+        <div>
+          <p class="daily-day">Fri</p>
+          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
+          <div class="daily-info">
+            <p class="temp">10°</p>
+            <p class="wind">10 km/hr</p>
+          </div>
+        </div>
+        
+        <div>
+          <p class="daily-day">Sat</p>
+          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
+          <div class="daily-info">
+            <p class="temp">10°</p>
+            <p class="wind">10 km/hr</p>
+          </div>
+        </div>
+        
+        <div>
+          <p class="daily-day">Mon</p>
+          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
+          <div class="daily-info">
+            <p class="temp">10°</p>
+            <p class="wind">10 km/hr</p>
+          </div>
         </div>
       </div>
-    </header>
-    <main>
-      <section class="main-weather-card">
-        <div class="location">
-          <div>
-            <h2>Berlin, Germany</h2>
-            <p>Tuesday,Aug 5, 2025</p>
-          </div>
-          <div class="temp">
-            <img src="assets/images/icon-sunny.webp" alt="" /
-            class="weather-icon">
-            <span>20</span>
-          </div>
-        </div>
-      </section>
 
-      <div class="weather-info-grid">
-        <div class="info-box">
-          <p>Feels Like</p>
-          <h3>18</h3>
-        </div>
-        <div class="info-box">
-          <p>Humidity</p>
-          <h3>46%</h3>
-        </div>
-        <div class="info-box">
-          <p>Wind</p>
-          <h3>14 km/h</h3>
-        </div>
-        <div class="info-box">
-          <p>Precipitation</p>
-          <h3>0 mm</h3>
-        </div>
-      </div>
+    </div>
+  </main>
 
-      <section class="daily-forecast">
-        <h2>Daily Forecast</h2>
 
-        <div class="day-cards">
-          <div class="day">
-            <p>Tue</p>
-            <img src="assets/images/icon-rain.webp" alt="" />
-            <div class="temp-numbers">
-              <p>20</p>
-              <p>14</p>
-            </div>
-          </div>
-          <div class="day">
-            <p>Wed</p>
-            <img src="assets/images/icon-drizzle.webp" alt="" />
-            <div class="temp-numbers">
-              <p>21</p>
-              <p>15</p>
-            </div>
-          </div>
-          <div class="day">
-            <p>Thu</p>
-            <img src="assets/images/icon-sunny.webp" alt="" />
-            <div class="temp-numbers">
-              <p>24</p>
-              <p>14</p>
-            </div>
-          </div>
-          <div class="day">
-            <p>Fri</p>
-            <img src="assets/images/icon-partly-cloudy.webp" alt="" />
-            <div class="temp-numbers">
-              <p>25</p>
-              <p>13</p>
-            </div>
-          </div>
-          <div class="day">
-            <p>Sat</p>
-            <img src="assets/images/icon-storm.webp" alt="" />
-            <div class="temp-numbers">
-              <p>21</p>
-              <p>15</p>
-            </div>
-          </div>
-          <div class="day">
-            <p>Sun</p>
-            <img src="assets/images/icon-snow.webp" alt="" />
-            <div class="temp-numbers">
-              <p>25</p>
-              <p>16</p>
-            </div>
-          </div>
-          <div class="day">
-            <p>Mon</p>
-            <img src="assets/images/icon-fog.webp" alt="" />
-            <div class="temp-numbers">
-              <p>24</p>
-              <p>15</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-    <!-- <div>
-      Logo made by
-      <a href="https://www.designevo.com/" title="Free Online Logo Maker"
-        >DesignEvo free logo creator</a
-      >
-    </div> -->
-    <script src="js/script.js"></script>
-  </body>
+
+  <script src="js/script.js"></script>
+</body>
+
 </html>

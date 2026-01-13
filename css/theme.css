@@ -1,0 +1,80 @@
+:root {
+  --bg-main: #ffffff;
+  --bg-card: #f5f5f5;
+
+  --heading-color: #111827;
+  --text-main: #374151;
+
+  --accent: #2563eb;
+}
+
+.weather-sunny {
+  --bg-main: #FFF4D6;
+  --bg-card: #FFE8A3;
+
+  --heading-color: #C87A00;
+  --text-main: #5A3A00;
+
+  --accent: #FFB703;
+}
+
+.weather-cloudy {
+  --bg-main: #EEF1F5;
+  --bg-card: #D9DEE6;
+
+  --heading-color: #4A5568;
+  --text-main: #2D3748;
+
+  --accent: #718096;
+}
+
+.weather-rainy {
+  --bg-main: #E6F0FA;
+  --bg-card: #C9DDF2;
+
+  --heading-color: #1E3A5F;
+  --text-main: #243B53;
+
+  --accent: #3B82F6;
+}
+
+.weather-stormy {
+  --bg-main: #1F2933;
+  --bg-card: #323F4B;
+
+  --heading-color: #FBBF24;
+  --text-main: #E5E7EB;
+
+  --accent: #F59E0B;
+}
+
+.weather-snowy {
+  --bg-main: #F1F5F9;
+  --bg-card: #E2E8F0;
+
+  --heading-color: #0F172A;
+  --text-main: #334155;
+
+  --accent: #38BDF8;
+}
+
+.weather-foggy {
+  --bg-main: #ECECEC;
+  --bg-card: #D6D6D6;
+
+  --heading-color: #3F3F46;
+  --text-main: #52525B;
+
+  --accent: #A1A1AA;
+}
+
+.weather-night {
+  --bg-main: #020617;
+  --bg-card: #0F172A;
+
+  --heading-color: #E0E7FF;
+  --text-main: #CBD5E1;
+
+  --accent: #6366F1;
+}
+

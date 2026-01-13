@@ -78,5 +78,3 @@ Text: #CBD5E1
 Accent: #6366F1
 Mood: Calm, night-friendly
 
-
-<div>Logo made by <a href="https://www.designevo.com/" title="Free Online Logo Maker">DesignEvo free logo creator</a></div>
