@@ -9,14 +9,14 @@
   <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon" />
 </head>
 
-<body>
+<body data-state="idle">
   <header>
     <h1>Weatherly</h1>
   </header>
   <div class="intro">
     <p class="intro--text">Hello, You want to see what the sky looks like?</p>
     <div class="intro--search">
-      <input type="text" name="city" id="city" spellcheck="false" placeholder="Search for a place...">
+      <input type="text" name="city" id="city" spellcheck="false" autocomplete="off" placeholder="Search for a place...">
       <button id="search">Search</button>
     </div>
   </div>
@@ -24,92 +24,48 @@
   <main class="details">
     <div class="details--main">
       <div>
-        <p class="main-city">Berlin, Germany</p>
-        <p class="main-date">Tuesday, Jan 13, 2026</p>
+        <p class="main-city" id="city-name"></p>
+        <p class="main-date" id="date"></p>
       </div>
       <div>
-        <img src="assets/images/icon-sunny.webp" alt="sunny">
-        <p class="temp">20°</p>
+        <img id="weather-icon" alt="" hidden> 
+        <p class="temp" id="temperature"></p>
       </div>
     </div>
 
     <div class="details--sub">
       <div>
         <p class="sub-text">Feels Like</p>
-        <p class="feels">18°</p>
+        <p class="feels" id="feels-like"></p>
       </div>
       <div>
         <p class="sub-text">Humidity</p>
-        <p class="humidity">46%</p>
+        <p class="humidity" id="humidity"></p>
       </div>
       <div>
         <p class="sub-text">Wind</p>
-        <p class="wind">14 km/hr</p>
+        <p class="wind" id="wind"></p>
       </div>
       <div>
-        <p class="sub-text">Percipitation</p>
-        <p class="feels">0 mm</p>
+        <p class="sub-text">Precipitation</p>
+        <p class="precipitation" id="precipitation"></p>
       </div>
     </div>
 
     <div class="details--daily">
       <p class="daily-text">Daily Forcast</p>
-      <div class="daily-box">
-        <div>
-          <p class="daily-day">Tue</p>
-          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
-          <div class="daily-info">
-            <p class="temp">10°</p>
-            <p class="wind">10 km/hr</p>
+      <div class="daily-box" id="daily-forcast">
+        <template id="daily-template">
+          <div class="daily-item">
+            <p class="daily-day"></p>
+            <img class="icon" hidden>
+            <div class="daily-info">
+              <p class="temp"></p>
+              <p class="wind"></p>
+            </div>
           </div>
-        </div>
-        
-        <div>
-          <p class="daily-day">Wed</p>
-          <img src="assets/images/icon-fog.webp" alt="" class="icon">
-          <div class="daily-info">
-            <p class="temp">10°</p>
-            <p class="wind">10 km/hr</p>
-          </div>
-        </div>
-        
-        <div>
-          <p class="daily-day">Thur</p>
-          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
-          <div class="daily-info">
-            <p class="temp">10°</p>
-            <p class="wind">10 km/hr</p>
-          </div>
-        </div>
-        
-        <div>
-          <p class="daily-day">Fri</p>
-          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
-          <div class="daily-info">
-            <p class="temp">10°</p>
-            <p class="wind">10 km/hr</p>
-          </div>
-        </div>
-        
-        <div>
-          <p class="daily-day">Sat</p>
-          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
-          <div class="daily-info">
-            <p class="temp">10°</p>
-            <p class="wind">10 km/hr</p>
-          </div>
-        </div>
-        
-        <div>
-          <p class="daily-day">Mon</p>
-          <img src="assets/images/icon-sunny.webp" alt="" class="icon">
-          <div class="daily-info">
-            <p class="temp">10°</p>
-            <p class="wind">10 km/hr</p>
-          </div>
-        </div>
+        </template> 
       </div>
-
     </div>
   </main>
 
