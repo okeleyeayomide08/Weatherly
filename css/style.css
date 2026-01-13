@@ -1,7 +1,153 @@
 @import url(fonts.css);
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #fff4d6;
+  font-family: "BricolageGrotesque-Bold" sans-serif;
+}
+header h3 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #c87a00;
+}
+.main-title h1 {
+  color: #c87a00;
+}
+.main-title {
+  text-align: center;
+  font-size: 32px;
+  margin-top: 30px;
+}
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+.search-box input {
+  width: 400px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: #ffe8a3;
+}
+.search-box button {
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #ffe8a3;
+  background-color: #5a3a00;
+}
+.main-weather-card {
+  background-color: #ffe8a3;
+  margin: 20px auto;
+  width: 70%;
+  padding: 30px;
+  border-radius: 10px;
+  color: #5a3a00;
+}
+.location {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.location h2 {
+  font-size: 32px;
+  color: #c87a00;
+}
+.temp {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 50%;
+}
+.temp img {
+  width: 30%;
+}
+.temp span {
+  font-size: 75px;
+  font-weight: bold;
+}
+.weather-info-grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  width: 70%;
+  padding: 30px;
+  margin: 40px auto;
+}
+.info-box {
+  padding: 20px;
+  border-radius: 10px;
+  text-align: left;
+  background-color: #ffe8a3;
+  color: #5a3a00;
+  width: 22%;
+}
+.daily-forecast {
+  width: 70%;
+  margin: 40px auto;
+}
+.daily-forecast h2 {
+  color: #c87a00;
+}
+.day-cards {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.day {
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  width: 13%;
+  background-color: #ffe8a3;
+  color: #5a3a00;
+}
+.day img {
+  width: 75%;
+}
+.temp-numbers {
+  display: flex;
+  justify-content: space-between;
+}
+@media (max-width: 786px) {
+  body {
+    padding: 15px;
+  }
+  .main-title {
+    text-align: center;
+  }
+
+  .main-weather-card {
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+  }
+  .temp {
+    justify-content: center;
+  }
+  .info-box {
+    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .day-cards {
+    display: flex;
+    overflow-x: auto;
+    gap: 12px;
+    padding-bottom: 5px;
+  }
+  .day {
+    min-width: 80px;
+    padding: 12px;
+    text-align: center;
+  }
 }
