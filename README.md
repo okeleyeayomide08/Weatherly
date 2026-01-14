@@ -3,8 +3,7 @@
 A modern, dynamic weather web application that displays real-time weather data, daily forecasts, and adapts its theme and icons based on weather conditions.
 
 ## Live Demo
-Check out the live demo [here](## Live Demo
-Check out the live demo [here](https://your-vercel-link.vercel.app))
+Check out the live demo [here](https://standalone-project-group-12.vercel.app/)
 
 ## 📌 Designed By
 **Okeleye Ayomide and Khaleesor Ajetunmobi**
