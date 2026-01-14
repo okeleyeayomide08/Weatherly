@@ -17,21 +17,50 @@ const humidityEl = document.getElementById("humidity");
 const windEl = document.getElementById("wind");
 const precipitationEl = document.getElementById("precipitation");
 
-// Weekly forecast
+// Daily forecast
 const dailyContainer = document.getElementById("daily-forcast");
 const dailyTemplate = document.getElementById("daily-template");
 
 // =========================
 // CONFIG
 // =========================
-const API_KEY = "a6cba0c6162589cee27420fdb5e216c6";
+const API_KEY = "147437c80d2510a08584ba9606801aef";
 const API_URL = "https://api.openweathermap.org/data/2.5/";
+
+// =========================
+// ICON MAPPING
+// =========================
+function getIconName(main) {
+  switch (main) {
+    case "Clear":
+      return "clear";
+    case "Clouds":
+      return "clouds";
+    case "Rain":
+    case "Drizzle":
+      return "rain";
+    case "Thunderstorm":
+      return "thunderstorm";
+    case "Snow":
+      return "snow";
+    case "Mist":
+    case "Fog":
+    case "Haze":
+    case "Smoke":
+    case "Dust":
+    case "Sand":
+    case "Ash":
+      return "fog";
+    default:
+      return "clouds";
+  }
+}
 
 // =========================
 // THEME LOGIC
 // =========================
-function getWeatherTheme(weatherMain) {
-  switch (weatherMain) {
+function getWeatherTheme(main) {
+  switch (main) {
     case "Clear":
       return "sunny";
     case "Clouds":
@@ -46,40 +75,35 @@ function getWeatherTheme(weatherMain) {
     case "Mist":
     case "Fog":
     case "Haze":
+    case "Smoke":
+    case "Dust":
+    case "Sand":
+    case "Ash":
       return "foggy";
     default:
       return "cloudy";
   }
 }
 
-function isNight(current, sunrise, sunset) {
-  return current < sunrise || current > sunset;
-}
-
 function applyTheme(theme) {
-  body.classList.remove(
-    "weather-sunny",
-    "weather-cloudy",
-    "weather-rainy",
-    "weather-stormy",
-    "weather-snowy",
-    "weather-foggy",
-    "weather-night"
-  );
+  body.className = "";
   body.classList.add(`weather-${theme}`);
 }
 
 // =========================
-// HELPER FUNCTIONS
+// HELPERS
 // =========================
-function formatDate(unix) {
-  const date = new Date(unix * 1000);
-  const options = { weekday: "short", month: "short", day: "numeric" };
-  return date.toLocaleDateString("en-US", options);
-}
-
 function kelvinToCelsius(k) {
   return Math.round(k - 273.15);
+}
+
+function formatDate(unix) {
+  return new Date(unix * 1000).toLocaleDateString("en-US", {
+    weekday: "long",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 }
 
 function clearMainWeather() {
@@ -102,36 +126,22 @@ function clearDailyForecast() {
 // =========================
 function renderMainWeather(data) {
   const weather = data.weather[0];
-  const main = data.main;
-  const wind = data.wind;
-  const dt = data.dt;
-  const sys = data.sys;
 
-  // Determine day/night for theme
-  if (weather.main === "Clear" && isNight(dt, sys.sunrise, sys.sunset)) {
-    applyTheme("night");
-  } else {
-    const theme = getWeatherTheme(weather.main);
-    applyTheme(theme);
-  }
-
-  // Fill main content
   cityName.textContent = `${data.name}, ${data.sys.country}`;
-  dateEl.textContent = formatDate(dt);
-  tempEl.textContent = `${kelvinToCelsius(main.temp)}°`;
+  dateEl.textContent = formatDate(data.dt);
+  tempEl.textContent = `${kelvinToCelsius(data.main.temp)}°`;
 
-  // Icon
-  weatherIcon.src = `assets/images/icon-${weather.main.toLowerCase()}.webp`;
+  weatherIcon.src = `assets/images/icon/${getIconName(weather.main)}.webp`;
   weatherIcon.alt = weather.main;
   weatherIcon.hidden = false;
 
-  // Sub details
-  feelsEl.textContent = `${kelvinToCelsius(main.feels_like)}°`;
-  humidityEl.textContent = `${main.humidity}%`;
-  windEl.textContent = `${wind.speed} km/hr`;
-  precipitationEl.textContent = data.rain
-    ? `${data.rain["1h"] ?? 0} mm`
-    : "0 mm";
+  feelsEl.textContent = `${kelvinToCelsius(data.main.feels_like)}°`;
+  humidityEl.textContent = `${data.main.humidity}%`;
+  windEl.textContent = `${data.wind.speed} km/hr`;
+  precipitationEl.textContent =
+    data.rain && data.rain["1h"] ? `${data.rain["1h"]} mm` : "0 mm";
+
+  applyTheme(getWeatherTheme(weather.main));
 }
 
 // =========================
@@ -139,62 +149,62 @@ function renderMainWeather(data) {
 // =========================
 function renderWeeklyForecast(data) {
   clearDailyForecast();
-  data.daily.forEach((day) => {
-    const clone = dailyTemplate.content.cloneNode(true);
-    const dayEl = clone.querySelector(".daily-day");
-    const iconEl = clone.querySelector(".icon");
-    const tempEl = clone.querySelector(".temp");
-    const windEl = clone.querySelector(".wind");
 
-    dayEl.textContent = formatDate(day.dt).split(",")[0]; // weekday only
-    iconEl.src = `assets/images/icon-${day.weather[0].main.toLowerCase()}.webp`;
-    iconEl.alt = day.weather[0].main;
-    iconEl.hidden = false;
+  // OpenWeather 5-day forecast has 3-hour intervals
+  const dailyMap = {};
 
-    tempEl.textContent = `${kelvinToCelsius(day.temp.day)}°`;
-    windEl.textContent = `${day.wind_speed} km/hr`;
-
-    dailyContainer.appendChild(clone);
+  data.list.forEach((item) => {
+    const day = new Date(item.dt * 1000).toDateString();
+    if (!dailyMap[day]) dailyMap[day] = item;
   });
+
+  Object.values(dailyMap)
+    .slice(0, 5)
+    .forEach((day) => {
+      const clone = dailyTemplate.content.cloneNode(true);
+
+      clone.querySelector(".daily-day").textContent = new Date(
+        day.dt * 1000
+      ).toLocaleDateString("en-US", { weekday: "short" });
+
+      const icon = clone.querySelector(".icon");
+      icon.src = `assets/images/icon/${getIconName(day.weather[0].main)}.webp`;
+      icon.hidden = false;
+      icon.alt = day.weather[0].main;
+
+      clone.querySelector(".temp").textContent = `${kelvinToCelsius(
+        day.main.temp
+      )}°`;
+
+      clone.querySelector(".wind").textContent = `${day.wind.speed} km/hr`;
+
+      dailyContainer.appendChild(clone);
+    });
 }
 
 // =========================
-// FETCH WEATHER DATA
+// FETCH WEATHER
 // =========================
-async function fetchWeatherByCoords(lat, lon) {
-  body.dataset.state = "loading";
-  try {
-    const [currentRes, weeklyRes] = await Promise.all([
-      fetch(`${API_URL}weather?lat=${lat}&lon=${lon}&appid=${API_KEY}`),
-      fetch(
-        `${API_URL}onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${API_KEY}`
-      ),
-    ]);
-
-    const currentData = await currentRes.json();
-    const weeklyData = await weeklyRes.json();
-
-    renderMainWeather(currentData);
-    renderWeeklyForecast(weeklyData);
-
-    body.dataset.state = "ready";
-  } catch (err) {
-    console.error(err);
-    body.dataset.state = "idle";
-    alert("Failed to fetch weather data.");
-  }
+async function fetchWeeklyForecast(lat, lon) {
+  const res = await fetch(
+    `${API_URL}forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`
+  );
+  const data = await res.json();
+  renderWeeklyForecast(data);
 }
 
 async function fetchWeatherByCity(city) {
   body.dataset.state = "loading";
   try {
-    const currentRes = await fetch(
-      `${API_URL}weather?q=${city}&appid=${API_KEY}`
-    );
-    const currentData = await currentRes.json();
-    const { coord } = currentData;
-    // Fetch weekly forecast using coordinates
-    await fetchWeatherByCoords(coord.lat, coord.lon);
+    const res = await fetch(`${API_URL}weather?q=${city}&appid=${API_KEY}`);
+
+    if (!res.ok) throw new Error("City not found");
+
+    const data = await res.json();
+    renderMainWeather(data);
+
+    await fetchWeeklyForecast(data.coord.lat, data.coord.lon);
+    body.dataset.state = "ready";
   } catch (err) {
     console.error(err);
     body.dataset.state = "idle";
@@ -202,29 +212,33 @@ async function fetchWeatherByCity(city) {
   }
 }
 
-// =========================
-// LOCATION PERMISSION
-// =========================
 function getLocationWeather() {
   if (!navigator.geolocation) return;
+
   navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const { latitude, longitude } = position.coords;
-      fetchWeatherByCoords(latitude, longitude);
+    async (pos) => {
+      const { latitude, longitude } = pos.coords;
+      const res = await fetch(
+        `${API_URL}weather?lat=${latitude}&lon=${longitude}&appid=${API_KEY}`
+      );
+      const data = await res.json();
+
+      renderMainWeather(data);
+      fetchWeeklyForecast(latitude, longitude);
     },
-    (err) => {
-      console.warn("Location denied:", err.message);
-      // fallback: remain idle, user can search manually
+    () => {
+      // user denied location — stay idle
     }
   );
 }
 
 // =========================
-// EVENT LISTENERS
+// EVENTS
 // =========================
 searchBtn.addEventListener("click", () => {
   const city = searchInput.value.trim();
   if (!city) return;
+
   clearMainWeather();
   clearDailyForecast();
   fetchWeatherByCity(city);
@@ -235,7 +249,7 @@ searchInput.addEventListener("keypress", (e) => {
 });
 
 // =========================
-// ON PAGE LOAD
+// ON LOAD
 // =========================
 window.addEventListener("load", () => {
   clearMainWeather();
