@@ -7,6 +7,12 @@ A modern, dynamic weather web application that displays real-time weather data, 
 ## 📌 Designed By
 **Okeleye Ayomide and Khaleesor Ajetunmobi**
 
+![Weatherly Demo](assets/designs/initial.png)
+![Weatherly Demo](assets/designs/error.png)
+![Weatherly Demo](assets/designs/clear.png)
+![Weatherly Demo](assets/designs/cloudy.png)
+![Weatherly Demo](assets/designs/snowy.png)
+
 ---
 
 ## 📖 Project Overview
