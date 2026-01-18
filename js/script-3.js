@@ -312,6 +312,7 @@ async function fetchWeatherByCoordinates(lat, lon, label) {
 
     localStorage.setItem("lastCity", label);
     localStorage.setItem("refreshCount", "0");
+    localStorage.setItem("isLocationBased", "false");
 
     setUIState("ready");
   } catch (err) {
@@ -399,6 +400,7 @@ async function fetchWeatherByCity(input) {
 
     localStorage.setItem("lastCity", input);
     localStorage.setItem("refreshCount", "0");
+    localStorage.setItem("isLocationBased", "false");
 
     // Fetch main weather
     const weatherRes = await fetch(
@@ -451,8 +453,12 @@ function getLocationWeather() {
       if (!res.ok) throw new Error();
 
       const data = await res.json();
-      renderMainWeather(data, `${data.name}, ${data.sys.country}`);
+      const label = `${data.name}, ${data.sys.country}`;
+      renderMainWeather(data, label);
       await fetchWeeklyForecast(latitude, longitude);
+      localStorage.setItem("lastCity", label);
+      localStorage.setItem("refreshCount", "0");
+      localStorage.setItem("isLocationBased", "true");
     } catch {
       showMessage("Unable to fetch your location weather");
     }
@@ -497,6 +503,7 @@ window.addEventListener("load", () => {
   clearMessage();
 
   const lastCity = localStorage.getItem("lastCity");
+  const isLocationBased = localStorage.getItem("isLocationBased") === "true";
   let refreshCount = Number(localStorage.getItem("refreshCount") || 0);
 
   if (lastCity && refreshCount < MAX_REFRESH) {
@@ -504,7 +511,18 @@ window.addEventListener("load", () => {
     localStorage.setItem("refreshCount", refreshCount);
     fetchWeatherByCity(lastCity);
   } else {
-    localStorage.removeItem("refreshCount");
-    getLocationWeather();
+    // If refresh exceeded, only go back to location if it was location-based
+    if (isLocationBased) {
+      localStorage.removeItem("refreshCount");
+      getLocationWeather();
+    } else if (lastCity) {
+      // For searched locations, stay on them even after 3 refreshes
+      localStorage.removeItem("refreshCount");
+      fetchWeatherByCity(lastCity);
+    } else {
+      // No previous city, show location
+      localStorage.removeItem("refreshCount");
+      getLocationWeather();
+    }
   }
 });

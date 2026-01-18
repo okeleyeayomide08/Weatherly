@@ -91,7 +91,7 @@ header h1 {
   padding: 0.8rem 1.5rem;
   cursor: pointer;
   color: var(--heading-color);
-  font-family: DMSans-Regular;
+  font-family: DMSans-Medium;
   font-size: 1.2rem;
   border-bottom: 0.05rem solid var(--heading-color);
   transition: background-color 0.2s ease;
