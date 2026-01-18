@@ -506,23 +506,30 @@ window.addEventListener("load", () => {
   const isLocationBased = localStorage.getItem("isLocationBased") === "true";
   let refreshCount = Number(localStorage.getItem("refreshCount") || 0);
 
-  if (lastCity && refreshCount < MAX_REFRESH) {
+  // Check if we have a last city and refreshes haven't exceeded limit
+  if (lastCity && refreshCount < MAX_REFRESH && !isLocationBased) {
+    // For searched locations, increment refresh count
     refreshCount++;
     localStorage.setItem("refreshCount", refreshCount);
     fetchWeatherByCity(lastCity);
+  } else if (lastCity && refreshCount < MAX_REFRESH && isLocationBased) {
+    // For location-based, increment and continue reloading location
+    refreshCount++;
+    localStorage.setItem("refreshCount", refreshCount);
+    fetchWeatherByCity(lastCity);
+  } else if (lastCity && refreshCount >= MAX_REFRESH && isLocationBased) {
+    // Location-based and refresh exceeded - go back to geolocation
+    localStorage.removeItem("refreshCount");
+    localStorage.removeItem("lastCity");
+    localStorage.removeItem("isLocationBased");
+    getLocationWeather();
+  } else if (lastCity && refreshCount >= MAX_REFRESH && !isLocationBased) {
+    // Searched location and refresh exceeded - stay on it
+    localStorage.removeItem("refreshCount");
+    fetchWeatherByCity(lastCity);
   } else {
-    // If refresh exceeded, only go back to location if it was location-based
-    if (isLocationBased) {
-      localStorage.removeItem("refreshCount");
-      getLocationWeather();
-    } else if (lastCity) {
-      // For searched locations, stay on them even after 3 refreshes
-      localStorage.removeItem("refreshCount");
-      fetchWeatherByCity(lastCity);
-    } else {
-      // No previous city, show location
-      localStorage.removeItem("refreshCount");
-      getLocationWeather();
-    }
+    // No previous city, show location
+    localStorage.removeItem("refreshCount");
+    getLocationWeather();
   }
 });
